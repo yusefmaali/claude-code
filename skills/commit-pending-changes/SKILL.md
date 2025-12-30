@@ -42,7 +42,7 @@ This skill helps you create well-formatted, informative commit messages followin
      - Be concise (50 chars or less for the subject line)
    - If the changes are substantial, include a body explaining the "why" behind the changes
    - If there's a breaking change, add `BREAKING CHANGE:` in the footer
-   - Don't add Claude Code attributions in the message
+   - Remove any Claude Code attribution and Co-Authored-By in the commit message
 
 5. **Create the commit:**
    - Use the generated conventional commit message
@@ -95,4 +95,4 @@ Clients must implement token refresh logic.
 - Ask the user to confirm the commit message before committing
 - If there are no changes to commit, inform the user
 - Never commit files that may contain sensitive information
-- Never add references or attributions to Claude Code
+- Never add Claude Code attribution and Co-Authored-By in the commit message. Create a clean commit without those
