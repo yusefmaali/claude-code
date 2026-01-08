@@ -1,38 +1,13 @@
 ---
 name: commit-pending-changes
 description: Generates commit messages. It analyzes code changes and suggests a commit message adhering to the conventional commits specification. Use this skill when you need help writing clear, standardized commit messages, especially after making code changes and preparing to commit. Trigger with terms like "create commit", "generate commit message", "write commit" or "commit".
-agent: general-purpose
-model: opus
-context: fork
-allowed-tools: Bash(git diff:*), Bash(git status:*), Bash(git log:*), Bash(git add:*), Bash(git commit:*)
-version: 1.2.0
+allowed-tools: Bash(git diff:*), Bash(git status:*), Bash(git log:*), Bash(git commit:*)
+version: 1.3.0
 ---
 
 ## Overview
 
 This skill helps you create well-formatted, informative commit messages following the **Conventional Commits** specification, improving collaboration and automation in your Git workflow. It saves you time and ensures consistency across your project.
-
-## Context Requirements for Main Agent
-
-When invoking this skill, you MUST provide a brief context containing:
-
-### Required
-- **Task Summary**: What was the user trying to accomplish?
-- **Changed Files**: List of files discussed or modified during the conversation
-
-### Include If Available
-- **Spec/Doc References**: Any documentation, tickets, or specs mentioned (e.g., "implements RFC-123", "per design doc in /docs/auth.md")
-- **Key Decisions**: Technical decisions made during implementation (e.g., "chose adapter pattern for extensibility")
-- **Breaking Changes**: Any breaking changes or migration notes discussed
-
-### Example Context Brief
-```
-Task: Refactor authentication to support OAuth2 providers
-Files: src/auth/oauth.ts, src/auth/providers/*.ts, tests/auth.test.ts
-Specs: Implements AUTH-234, follows design in docs/oauth-design.md
-Decisions: Used strategy pattern for provider abstraction, added backward-compat shim
-Breaking: None, existing API preserved
-```
 
 ## Instructions
 
