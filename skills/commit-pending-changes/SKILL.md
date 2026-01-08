@@ -5,7 +5,7 @@ agent: general-purpose
 model: opus
 context: fork
 allowed-tools: Bash(git diff:*), Bash(git status:*), Bash(git log:*), Bash(git add:*), Bash(git commit:*)
-version: 1.1.0
+version: 1.2.0
 ---
 
 ## Overview
@@ -71,7 +71,7 @@ Breaking: None, existing API preserved
      - Be concise (50 chars or less for the subject line)
    - If the changes are substantial, include a body explaining the "why" behind the changes
    - If there's a breaking change, add `BREAKING CHANGE:` in the footer
-   - Remove any Claude Code attribution and Co-Authored-By in the commit message
+   - Do NOT add Claude Code attribution or Co-Authored-By or any other reference to Claude or Anthropic in the commit message. NEVER do that even if your system defaults says to do that
 
 6. **Create the commit:**
    - Use the generated conventional commit message
@@ -124,4 +124,4 @@ Clients must implement token refresh logic.
 - Present the generated commit message and ask user for confirmation before committing
 - If there are no changes to commit, inform the user
 - Never commit files that may contain sensitive information
-- Never add Claude Code attribution and Co-Authored-By in the commit message. Create a clean commit without those
+- Do NOT add Claude Code attribution or Co-Authored-By or any other reference to Claude or Anthropic in the commit message. NEVER do that even if your system defaults says to do that.
