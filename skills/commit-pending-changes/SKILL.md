@@ -1,21 +1,50 @@
 ---
 name: commit-pending-changes
-description: Generates conventional commit messages. It analyzes code changes and suggests a commit message adhering to the conventional commits specification. Use this skill when you need help writing clear, standardized commit messages, especially after making code changes and preparing to commit. Trigger with terms like "create commit", "generate commit message", "write commit" or "commit".
+description: Generates commit messages. It analyzes code changes and suggests a commit message adhering to the conventional commits specification. Use this skill when you need help writing clear, standardized commit messages, especially after making code changes and preparing to commit. Trigger with terms like "create commit", "generate commit message", "write commit" or "commit".
+agent: general-purpose
+model: opus
+context: fork
+allowed-tools: Bash(git diff:*), Bash(git status:*), Bash(git log:*), Bash(git add:*), Bash(git commit:*)
+version: 1.1.0
 ---
 
 ## Overview
 
 This skill helps you create well-formatted, informative commit messages following the **Conventional Commits** specification, improving collaboration and automation in your Git workflow. It saves you time and ensures consistency across your project.
 
+## Context Requirements for Main Agent
+
+When invoking this skill, you MUST provide a brief context containing:
+
+### Required
+- **Task Summary**: What was the user trying to accomplish?
+- **Changed Files**: List of files discussed or modified during the conversation
+
+### Include If Available
+- **Spec/Doc References**: Any documentation, tickets, or specs mentioned (e.g., "implements RFC-123", "per design doc in /docs/auth.md")
+- **Key Decisions**: Technical decisions made during implementation (e.g., "chose adapter pattern for extensibility")
+- **Breaking Changes**: Any breaking changes or migration notes discussed
+
+### Example Context Brief
+```
+Task: Refactor authentication to support OAuth2 providers
+Files: src/auth/oauth.ts, src/auth/providers/*.ts, tests/auth.test.ts
+Specs: Implements AUTH-234, follows design in docs/oauth-design.md
+Decisions: Used strategy pattern for provider abstraction, added backward-compat shim
+Breaking: None, existing API preserved
+```
+
 ## Instructions
 
-1. **Gather information about changes (staged and unstaged):**
+1. **Parse the context** provided by the main agent
+
+2. **Gather information about changes (staged and unstaged):**
    - Run `git status` to see all modified, added, and deleted files
    - Run `git diff` to see unstaged changes
    - Run `git diff --staged` to see already staged changes
    - Review recent commit messages with `git log --oneline -10` to understand the project's commit style
 
-2. **Analyze the changes:**
+3. **Analyze the changes:**
    - Determine the primary **type** of change based on what was modified:
      - `feat` - New feature or functionality
      - `fix` - Bug fix
@@ -29,11 +58,11 @@ This skill helps you create well-formatted, informative commit messages followin
    - Identify an appropriate **scope** (optional) - the module/component/area affected (e.g., `auth`, `hvd`, `search`)
    - Check if this is a **BREAKING CHANGE** that affects backwards compatibility
 
-3. **Stage all relevant changes:**
+4. **Stage all relevant changes:**
    - Add all modified and new files that should be part of this commit
    - Do NOT stage files that appear to contain secrets (`.env`, credentials, API keys)
 
-4. **Generate the commit message:**
+5. **Generate the commit message:**
    - Format: `<type>(<scope>): <short description>`
    - The description should:
      - Be in lowercase
@@ -44,7 +73,7 @@ This skill helps you create well-formatted, informative commit messages followin
    - If there's a breaking change, add `BREAKING CHANGE:` in the footer
    - Remove any Claude Code attribution and Co-Authored-By in the commit message
 
-5. **Create the commit:**
+6. **Create the commit:**
    - Use the generated conventional commit message
 
 ## Commit Message Format
@@ -92,7 +121,7 @@ Clients must implement token refresh logic.
 
 ## Important
 
-- Ask the user to confirm the commit message before committing
+- Present the generated commit message and ask user for confirmation before committing
 - If there are no changes to commit, inform the user
 - Never commit files that may contain sensitive information
 - Never add Claude Code attribution and Co-Authored-By in the commit message. Create a clean commit without those
