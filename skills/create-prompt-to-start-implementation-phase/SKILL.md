@@ -1,8 +1,8 @@
 ---
-name: start-phase
-description: Generates a comprehensive, copy-pasteable prompt to start the next implementation phase. Auto-detects the next NOT STARTED phase from the progress tracker, or accepts an explicit phase hint (e.g., "/start-phase frontend 3" or "/start-phase backend 5"). Use when beginning a new implementation phase in a fresh Claude Code session.
+name: create-prompt-to-start-implementation-phase
+description: Generates a comprehensive, copy-pasteable prompt to start the next implementation phase. Auto-detects the next NOT STARTED phase from the progress tracker, or accepts an explicit phase hint (e.g., "/create-prompt-to-start-implementation-phase frontend 3"). Use when beginning a new implementation phase in a fresh Claude Code session.
 allowed-tools: Read, Write, Glob, Grep
-version: 1.1.0
+version: 1.2.0
 ---
 
 ## Overview
@@ -12,11 +12,11 @@ This skill reads the implementation progress tracker, identifies the next phase 
 ## Inputs
 
 - **Arguments (optional):** Stack and/or phase number hints. Examples:
-  - `/start-phase` — auto-detect the next NOT STARTED phase (scans backend first, then frontend)
-  - `/start-phase frontend 3` — explicitly target frontend Phase 3
-  - `/start-phase backend 5` — explicitly target backend Phase 5
-  - `/start-phase 3` — Phase 3, auto-detect stack from progress tracker
-  - `/start-phase frontend` — next NOT STARTED frontend phase
+  - `/create-prompt-to-start-implementation-phase` — auto-detect the next NOT STARTED phase (scans backend first, then frontend)
+  - `/create-prompt-to-start-implementation-phase frontend 3` — explicitly target frontend Phase 3
+  - `/create-prompt-to-start-implementation-phase backend 5` — explicitly target backend Phase 5
+  - `/create-prompt-to-start-implementation-phase 3` — Phase 3, auto-detect stack from progress tracker
+  - `/create-prompt-to-start-implementation-phase frontend` — next NOT STARTED frontend phase
 
 ## Instructions
 

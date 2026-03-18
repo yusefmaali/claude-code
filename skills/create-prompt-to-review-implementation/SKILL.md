@@ -1,8 +1,8 @@
 ---
-name: start-review
-description: Generates a comprehensive, copy-pasteable prompt to launch a multi-agent code review of the most recently completed implementation phase. Auto-detects the last COMPLETED phase, or accepts an explicit hint (e.g., "/start-review frontend 2" or "/start-review backend 5"). The generated prompt spawns 3+ code-reviewer agents with distinct focus areas and produces a structured review report.
+name: create-prompt-to-review-implementation
+description: Generates a comprehensive, copy-pasteable prompt to launch a multi-agent code review of the most recently completed implementation phase. Auto-detects the last COMPLETED phase, or accepts an explicit hint (e.g., "/create-prompt-to-review-implementation frontend 2"). The generated prompt spawns 3+ code-reviewer agents with distinct focus areas and produces a structured review report.
 allowed-tools: Read, Write, Glob, Grep
-version: 1.0.0
+version: 1.1.0
 ---
 
 ## Overview
@@ -12,11 +12,11 @@ This skill reads the implementation progress tracker, identifies the most recent
 ## Inputs
 
 - **Arguments (optional):** Stack and/or phase number hints. Examples:
-  - `/start-review` — auto-detect the most recently completed phase
-  - `/start-review frontend 1` — explicitly target frontend Phase 1
-  - `/start-review backend 5` — explicitly target backend Phase 5
-  - `/start-review 3` — Phase 3, auto-detect stack from progress tracker
-  - `/start-review frontend` — most recently completed frontend phase
+  - `/create-prompt-to-review-implementation` — auto-detect the most recently completed phase
+  - `/create-prompt-to-review-implementation frontend 1` — explicitly target frontend Phase 1
+  - `/create-prompt-to-review-implementation backend 5` — explicitly target backend Phase 5
+  - `/create-prompt-to-review-implementation 3` — Phase 3, auto-detect stack from progress tracker
+  - `/create-prompt-to-review-implementation frontend` — most recently completed frontend phase
 
 ## Instructions
 
