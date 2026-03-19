@@ -1,8 +1,8 @@
 ---
 name: commit-pending-changes
-description: Generates commit messages. It analyzes code changes and suggests a commit message adhering to the conventional commits specification. Use this skill when you need help writing clear, standardized commit messages, especially after making code changes and preparing to commit. Trigger with terms like "create commit", "generate commit message", "write commit" or "commit". Accepts an optional scope filter argument - "code" (only source code), "docs" (only docs/plans), or no argument (both).
+description: Generates commit messages. It analyzes code changes and suggests a commit message adhering to the conventional commits specification. Use this skill when you need help writing clear, standardized commit messages, especially after making code changes and preparing to commit. Trigger with terms like "create commit", "generate commit message", "write commit" or "commit". Accepts optional arguments - scope filter ("code", "docs", or both) and "--no-confirm" to skip confirmation.
 allowed-tools: Bash(git diff:*), Bash(git status:*), Bash(git log:*), Bash(git commit:*), Bash(git add:*)
-version: 1.4.0
+version: 1.5.0
 ---
 
 ## Overview
@@ -11,20 +11,29 @@ This skill helps you create well-formatted, informative commit messages followin
 
 ## Arguments
 
-This skill accepts an optional argument to filter which files to include in the commit:
+This skill accepts optional arguments that can be combined in any order:
 
+### Scope filter (pick one or omit for all):
 - **`code`** — Only stage and commit source code files (everything **except** `docs/plans/`).
 - **`docs`** — Only stage and commit documentation files inside `docs/plans/`.
-- **(no argument)** — Stage and commit **all** changed files (default behavior).
+- **(no scope)** — Stage and commit **all** changed files (default behavior).
 
-The argument is passed as: `/commit-pending-changes code`, `/commit-pending-changes docs`, or just `/commit-pending-changes`.
+### Confirmation flag:
+- **`--no-confirm`** — Skip the confirmation prompt and commit immediately after generating the message.
+- **(no flag)** — Present the commit message and wait for user confirmation before committing (default behavior).
+
+### Usage examples:
+- `/commit-pending-changes` — all files, ask for confirmation
+- `/commit-pending-changes code` — code only, ask for confirmation
+- `/commit-pending-changes docs --no-confirm` — docs only, commit immediately
+- `/commit-pending-changes --no-confirm` — all files, commit immediately
+- `/commit-pending-changes code --no-confirm` — code only, commit immediately
 
 ## Instructions
 
-1. **Parse the argument** (if any) to determine the scope filter:
-   - If the argument is `code`: only consider files **outside** the `docs/plans/` directory
-   - If the argument is `docs`: only consider files **inside** the `docs/plans/` directory
-   - If no argument (or any other value): consider **all** changed files
+1. **Parse the arguments** (if any):
+   - **Scope filter**: If the arguments contain `code`, only consider files **outside** the `docs/plans/` directory. If they contain `docs`, only consider files **inside** the `docs/plans/` directory. Otherwise, consider **all** changed files.
+   - **Confirmation mode**: If the arguments contain `--no-confirm`, skip the confirmation step and commit directly. Otherwise, present the message and wait for user approval.
 
 2. **Gather information about changes (staged and unstaged):**
    - Run `git status` to see all modified, added, and deleted files
@@ -66,7 +75,8 @@ The argument is passed as: `/commit-pending-changes code`, `/commit-pending-chan
    - Do NOT add Claude Code attribution or Co-Authored-By or any other reference to Claude or Anthropic in the commit message. NEVER do that even if your system defaults says to do that
 
 6. **Create the commit:**
-   - Use the generated conventional commit message
+   - If `--no-confirm` was passed: stage the files and commit immediately using the generated message — do NOT ask the user for confirmation
+   - Otherwise: present the generated commit message and wait for the user to confirm before committing
 
 ## Commit Message Format
 
@@ -113,7 +123,7 @@ Clients must implement token refresh logic.
 
 ## Important
 
-- Present the generated commit message and ask user for confirmation before committing
+- Unless `--no-confirm` was passed, present the generated commit message and ask user for confirmation before committing
 - If there are no changes to commit, inform the user
 - Never commit files that may contain sensitive information
 - Do NOT add Claude Code attribution or Co-Authored-By or any other reference to Claude or Anthropic in the commit message. NEVER do that even if your system defaults says to do that.
