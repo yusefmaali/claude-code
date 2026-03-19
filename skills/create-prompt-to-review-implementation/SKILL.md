@@ -156,7 +156,7 @@ Launch **{N} code-reviewer agents in parallel**, each with a distinct focus area
 
 ---
 
-### Output Format
+## Output Format
 
 Each agent should produce:
 
@@ -197,7 +197,7 @@ Read the template at `docs/plans/template-implementation-review.md` to follow th
 
 ---
 
-#### Remember
+## Remember
 
 I'm a skilled senior software engineer, I'm going to be very skeptical on your work.
 Think deeply on it, enable ultrathink mode.
