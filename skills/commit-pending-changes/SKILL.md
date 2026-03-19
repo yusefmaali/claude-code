@@ -1,23 +1,37 @@
 ---
 name: commit-pending-changes
-description: Generates commit messages. It analyzes code changes and suggests a commit message adhering to the conventional commits specification. Use this skill when you need help writing clear, standardized commit messages, especially after making code changes and preparing to commit. Trigger with terms like "create commit", "generate commit message", "write commit" or "commit".
-allowed-tools: Bash(git diff:*), Bash(git status:*), Bash(git log:*), Bash(git commit:*)
-version: 1.3.0
+description: Generates commit messages. It analyzes code changes and suggests a commit message adhering to the conventional commits specification. Use this skill when you need help writing clear, standardized commit messages, especially after making code changes and preparing to commit. Trigger with terms like "create commit", "generate commit message", "write commit" or "commit". Accepts an optional scope filter argument - "code" (only source code), "docs" (only docs/plans), or no argument (both).
+allowed-tools: Bash(git diff:*), Bash(git status:*), Bash(git log:*), Bash(git commit:*), Bash(git add:*)
+version: 1.4.0
 ---
 
 ## Overview
 
 This skill helps you create well-formatted, informative commit messages following the **Conventional Commits** specification, improving collaboration and automation in your Git workflow. It saves you time and ensures consistency across your project.
 
+## Arguments
+
+This skill accepts an optional argument to filter which files to include in the commit:
+
+- **`code`** — Only stage and commit source code files (everything **except** `docs/plans/`).
+- **`docs`** — Only stage and commit documentation files inside `docs/plans/`.
+- **(no argument)** — Stage and commit **all** changed files (default behavior).
+
+The argument is passed as: `/commit-pending-changes code`, `/commit-pending-changes docs`, or just `/commit-pending-changes`.
+
 ## Instructions
 
-1. **Parse the context** provided by the main agent
+1. **Parse the argument** (if any) to determine the scope filter:
+   - If the argument is `code`: only consider files **outside** the `docs/plans/` directory
+   - If the argument is `docs`: only consider files **inside** the `docs/plans/` directory
+   - If no argument (or any other value): consider **all** changed files
 
 2. **Gather information about changes (staged and unstaged):**
    - Run `git status` to see all modified, added, and deleted files
    - Run `git diff` to see unstaged changes
    - Run `git diff --staged` to see already staged changes
    - Review recent commit messages with `git log --oneline -10` to understand the project's commit style
+   - **Apply the scope filter**: only analyze files that match the selected scope
 
 3. **Analyze the changes:**
    - Determine the primary **type** of change based on what was modified:
@@ -33,9 +47,12 @@ This skill helps you create well-formatted, informative commit messages followin
    - Identify an appropriate **scope** (optional) - the module/component/area affected (e.g., `auth`, `hvd`, `search`)
    - Check if this is a **BREAKING CHANGE** that affects backwards compatibility
 
-4. **Stage all relevant changes:**
-   - Add all modified and new files that should be part of this commit
-   - Do NOT stage files that appear to contain secrets (`.env`, credentials, API keys)
+4. **Stage only the files matching the scope filter:**
+   - If `code`: stage only files that are NOT under `docs/plans/`
+   - If `docs`: stage only files under `docs/plans/`
+   - If no filter: stage all relevant changed files
+   - In all cases, do NOT stage files that appear to contain secrets (`.env`, credentials, API keys)
+   - Use explicit file paths with `git add` — do NOT use `git add .` or `git add -A` when a scope filter is active
 
 5. **Generate the commit message:**
    - Format: `<type>(<scope>): <short description>`
