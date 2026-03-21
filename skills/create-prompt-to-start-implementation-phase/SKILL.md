@@ -76,7 +76,7 @@ Compose a comprehensive prompt using this template structure. Use ultrathink and
 This is production code.
 
 ```markdown
-Implement **{stack} Phase {N}: {Phase Title}** for the ErgoSafe project.
+Implement **{stack} Phase {N}: {Phase Title}**.
 
 ### Context
 - The {stack} is at Phase {N} of the {milestone} implementation

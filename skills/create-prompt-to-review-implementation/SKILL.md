@@ -98,7 +98,7 @@ Compose a comprehensive review prompt using this template structure. Use ultrath
 This is production code.
 
 ````markdown
-Conduct a comprehensive multi-agent code review of **{Stack} Phase {N}: {Phase Title}** for the ErgoSafe project.
+Conduct a comprehensive multi-agent code review of **{Stack} Phase {N}: {Phase Title}**.
 
 ## Review Context
 
